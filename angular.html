@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" ng-app='wsscat'>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body ng-controller='indexCtrl'>
+	<input ng-model="query">
+
+	<select ng-model="orderProp">
+		<option value="name">name</option>
+		<option value="age">age</option>
+	</select>
+
+	<ul class="phones">
+		<li ng-repeat="phone in phones | filter:query | orderBy:orderProp track by $index">
+			{{phone.name}}
+			<p>{{phone.snippet}}</p>
+			<p>{{phone.age}}</p>
+		</li>
+	</ul>
+
+
+	<ul>
+		<li ng-repeat="x in arr track by $index">
+			{{x}}
+		</li>
+	</ul>
+
+	<div>  
+    <p ng-repeat="x in items | unique:'id'">  
+        {{x.id}}---{{x.name}}  
+    </p>  
+</div> 
+</body>
+<script src="angular.js"></script>
+<script>
+	var app = angular.module('wsscat',[]);
+	app.controller('indexCtrl',function($scope,$http){
+		 $scope.arr=['aa','bb','cc','dd','cc'];
+		$scope.phones = [
+	    {"name": "wexus S",
+	     "snippet": "Fast just got faster with Nexus S.",
+	     "age": 0},
+	    {"name": "Motorola XOOM™ with Wi-Fi",
+	     "snippet": "The Next, Next Generation tablet.",
+	     "age": 1},
+	    {"name": "MOTOROLA XOOM™",
+	     "snippet": "The Next, Next Generation tablet.",
+	     "age": 2},
+	     {"name": "MOTOROLA XOOM™",
+	     "snippet": "The Next, Next Generation tablet.",
+	     "age": 2}
+	  ];
+	  	$scope.orderProp = 'age';
+	  //当前unique 的过滤只针对，对象数组过滤  
+        $scope.items = [  
+            { id: 1, name: 'zhangsan' },  
+            { id: 2, name: 'lisi' },  
+            { id: 1, name: 'zhangsan' },  
+        ];  
+      
+	});
+	
+
+	app.filter('unique', function () {  
+	    return function (collection, keyname) {  
+	        console.log(collection); 
+	        console.log(Array.isArray(collection));
+	        console.log(typeof collection == 'Object');  
+	        console.info(keyname);  
+	        var output = [],  
+	            keys = [];  
+	        angular.forEach(collection, function (item) {  
+	            var key = item[keyname];  
+	            if (keys.indexOf(key) === -1) {  
+	                keys.push(key);  
+	                output.push(item);  
+	            }  
+	        });  
+	        return output;  
+	    }  
+	});	
+</script>
+</html>
